@@ -16,6 +16,7 @@
 
 #include <objecte.h>
 #include <cotxe.h>
+#include <terra.h>
 
 using namespace std;
 
@@ -25,7 +26,7 @@ public:
     escena();
     ~escena();
 
-    void addObjecte(Objecte *cotxe);
+    void addObjecte(Objecte *obj);
     void aplicaTG(mat4 m);
 
     void aplicaTGCentrat(mat4 m);
@@ -39,6 +40,7 @@ public:
 
     // Objectes de l'escena: a modificar. Ara nomes té un objecte. Cal afegir un conjunt d'objectes
     Cotxe *cotxe;
+    Terra *terra;
 
 };
 
