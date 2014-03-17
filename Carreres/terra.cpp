@@ -5,9 +5,9 @@ Terra::Terra(float a, float p, float y) : Objecte(NumVerticesF)
     Index = 0;
     tam = 1;
 
-    xorig = 0;
+    xorig = -a/2;
     yorig = y;
-    zorig = 0;
+    zorig = -p/2;
 
     xRot = 0;
     yRot = 0;
@@ -20,19 +20,19 @@ Terra::Terra(float a, float p, float y) : Objecte(NumVerticesF)
 
 void Terra::createTerra(float a, float p){
     //Construir vertexs
-    point4 tl(xorig-a/2,yorig,zorig+p/2,1);
-    point4 tr(xorig+a/2,yorig,zorig+p/2,1);
-    point4 bl(xorig-a/2,yorig,zorig-p/2,1);
-    point4 br(xorig+a/2,yorig,zorig-p/2,1);
+    point4 tl(xorig,yorig,zorig,1);
+    point4 tr(-xorig,yorig,zorig,1);
+    point4 br(xorig,yorig,-zorig,1);
+    point4 bl(-xorig,yorig,-zorig,1);
     vertexs.push_back(tl);
     vertexs.push_back(tr);
     vertexs.push_back(bl);
     vertexs.push_back(br);
 
     //Construir cares
-    Cara cara1(0,1,2);
+    Cara cara1(0,3,1);
     cara1.color = vec4(1.0, 0.0, 0.0, 1.0);
-    Cara cara2(2,3,0);
+    Cara cara2(2,1,3);
     cara2.color = vec4(1.0, 0.0, 0.0, 1.0);
 
     //Afegir cares a vector de cares

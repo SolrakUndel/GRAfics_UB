@@ -25,6 +25,8 @@ void escena::addObjecte(Objecte *obj) {
         this->cotxe = (Cotxe*)obj;
     else if (dynamic_cast<Terra*>(obj))
         this->terra = (Terra*)obj;
+    else if (dynamic_cast<Obstacle*>(obj))
+        this->obstacles.push_back((Obstacle *)obj);
 }
 
 
@@ -105,7 +107,7 @@ void escena::reset() {
 
     if (cotxe!=NULL)
         cotxe->make();
-    if (terra!=NULLL)
+    if (terra!=NULL)
         terra->make();
 }
 

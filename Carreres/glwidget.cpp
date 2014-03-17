@@ -142,8 +142,9 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
     // parametres que posen l'objecte cotxe al punt original xorig, yorig, zorig i d'una certa mida
     // Cal modificar-lo per a que es posicioni a la Y correcte
     float yorig = 0;
+    if (esc->terra != NULL) esc->terra->getYOrig();
 
-    obj = new Cotxe(fichero, mida, xorig, yorig, zorig, 0., 0., 0.,xdirec, ydirec, zdirec);
+    obj = new Cotxe(fichero, mida, xorig, yorig, zorig, xRot, yRot, zRot,xdirec, ydirec, zdirec);
     newObjecte(obj);
 }
 
