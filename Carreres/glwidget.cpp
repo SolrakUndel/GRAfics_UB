@@ -183,9 +183,9 @@ void GLWidget::paintGL()
     qNormalizeAngle(yRot);
     qNormalizeAngle(zRot);
 
-    mat4 transform = ( RotateX( xRot / 16.0 ) *
-                        RotateY( yRot / 16.0 ) *
-                        RotateZ( zRot / 16.0 ) );
+    mat4 transform = ( RotateX( xRot / 64.0 ) *
+                        RotateY( yRot / 64.0 ) *
+                        RotateZ( zRot / 64.0 ) );
 
 
     if (esc!=NULL) {

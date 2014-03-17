@@ -39,32 +39,28 @@ void escena::CapsaMinCont3DEscena()
         capses.push_back(cotxe->calculCapsa3D());
     if (terra!=NULL)
         capses.push_back(terra->calculCapsa3D());
+    for (int i = 0; i < obstacles.size(); i++) capses.push_back(obstacles[i]->calculCapsa3D());
 
     if (capses.size() > 0) {
         //Requiere comprobacion de funcionamiento
         vec3 pmin = capses[0].pmin;
-        vec3 pmax = capses[0].pmin + vec3(capses[0].a,capses[0].h,capses[0].p);
+        vec3 pmax = vec3(capses[0].a,capses[0].h,capses[0].p);
 
         for (int i = 1; i < capses.size(); ++i){
             if (capses[i].pmin.x < pmin.x) pmin.x = capses[i].pmin.x;
-            if ((capses[i].pmin.x + capses[i].a) > pmax.x) pmax.x = capses[i].pmin.x + capses[i].a;
+            if (capses[i].a > pmax.x) pmax.x = capses[i].a;
 
             if (capses[i].pmin.y < pmin.y) pmin.y = capses[i].pmin.y;
-            if ((capses[i].pmin.y + capses[i].h)> pmax.y) pmax.y = capses[i].pmin.y + capses[i].h;
+            if (capses[i].h > pmax.y) pmax.y = capses[i].h;
 
             if (capses[i].pmin.z < pmin.z) pmin.z = capses[i].pmin.z;
-            if ((capses[i].pmin.z + capses[i].p) > pmax.z) pmax.z = capses[i].pmin.z + capses[i].p;
+            if (capses[i].p > pmax.z) pmax.z = capses[i].p;
         }
 
         capsaMinima.pmin = pmin;
-        capsaMinima.a = pmax.x-pmin.x;
-        capsaMinima.p = pmax.z-pmin.z;
-        capsaMinima.h = pmax.y-pmin.y;
-    } else {
-        capsaMinima.pmin = vec3(0,0,0);
-        capsaMinima.a = 1;
-        capsaMinima.p = 1;
-        capsaMinima.h = 1;
+        capsaMinima.a = pmax.x;
+        capsaMinima.p = pmax.z;
+        capsaMinima.h = pmax.y;
     }
 }
 
@@ -76,6 +72,9 @@ void escena::aplicaTG(mat4 m) {
         cotxe->aplicaTG(m);
     if (terra!=NULL)
         terra->aplicaTG(m);
+    for (int i = 0; i < obstacles.size(); i++){
+        obstacles[i]->aplicaTG(m);
+    }
 
 }
 
@@ -87,7 +86,7 @@ void escena::aplicaTGCentrat(mat4 m) {
         cotxe->aplicaTGCentrat(m);
     if (terra!=NULL)
         terra->aplicaTGCentrat(m);
-
+    for (int i = 0; i < obstacles.size(); i++) obstacles[i]->aplicaTGCentrat(m);
 }
 
 void escena::draw() {
@@ -98,6 +97,9 @@ void escena::draw() {
         cotxe->draw();
     if (terra!=NULL)
         terra->draw();
+    for (int i = 0; i < obstacles.size(); i++){
+        obstacles[i]->draw();
+    }
 
 }
 
@@ -109,5 +111,8 @@ void escena::reset() {
         cotxe->make();
     if (terra!=NULL)
         terra->make();
+    for (int i = 0; i < obstacles.size(); i++){
+        obstacles[i]->make();
+    }
 }
 
