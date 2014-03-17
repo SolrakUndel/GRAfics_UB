@@ -7,6 +7,8 @@ class Carrosseria : public Objecte
 {
 public:
     Carrosseria();
+private:
+    static const int NumVerticesF = 100000;
 };
 
 #endif // CARROSSERIA_H

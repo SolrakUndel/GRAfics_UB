@@ -22,7 +22,7 @@ class Objecte : public QObject
 protected:
     QString nom; // nom del fitxer on esta el cotxe
     vector<Cara> cares; // cares de l'objecte
-    vector<point4> vertexs; // vertexs de l'objecte sense repetits
+     // vertexs de l'objecte sense repetits
 
     // Sistema de coordenades d'un objecte: punt origen i eixos de rotació
     GLfloat xorig, yorig, zorig;
@@ -42,11 +42,11 @@ protected:
     point4 *points;
     color4 *colors;
     int Index; // index de control del numero de vertexs a posar a la GPU
-
+    void construeix_cara (char **words, int nwords, Objecte*objActual, int vindexUlt);
 
 public:
 
-
+    vector<point4> vertexs;
     float getYOrig();
     // Capsa mínima contenidora de l'objecte
     Capsa3D capsa;
@@ -66,21 +66,18 @@ public:
     virtual void make();
 
     // Pas generic de vertexs i colors a la GPU
-    void toGPU(QGLShaderProgram *p);
+    virtual void toGPU(QGLShaderProgram *p);
     // Pintat amb la GPU
     virtual void draw();
 
     // Calcula la capsa 3D contenidora de l'objecte
-    Capsa3D calculCapsa3D();
+    virtual Capsa3D calculCapsa3D();
 
     // Aplica una TG qualsevol a un objecte
-    void aplicaTG(mat4 m);
-    void aplicaTGPoints(mat4 m);
+    virtual void aplicaTG(mat4 m);
+    virtual void aplicaTGPoints(mat4 m);
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
     void aplicaTGCentrat(mat4 m);
-
-private:
-    void construeix_cara ( char **words, int nwords);
 
 };
 

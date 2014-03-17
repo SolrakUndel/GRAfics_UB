@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     terra.cpp \
     obstacle.cpp \
     carrosseria.cpp \
-    roda.cpp
+    roda.cpp \
+    readfile.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
