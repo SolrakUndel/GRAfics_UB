@@ -24,6 +24,11 @@ public:
 
 private:
 
+    Carroseria carro;
+    Roda roda_devantera_esquerra;
+    Roda roda_devantera_dreta;
+    Roda roda_posterior_dreta;
+    Roda roda_posterior_esquerra;
     static const int NumVerticesF = 100000;
     static const int NumCares = 300000;
 
