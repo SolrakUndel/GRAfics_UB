@@ -58,9 +58,10 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     else max = capsa.h;
     if (capsa.p > max) max = capsa.p;
 
-    aplicaTG(Translate(-x0,-y0,-z0));
-    aplicaTG(Scale(tam/max,tam/max,tam/max));
-    //aplicaTG(Translate(x0/min,y0/min,z0/min));
+    aplicaTGPoints(Translate(-xorig,-yorig,-zorig));
+    aplicaTGPoints(Scale(tam/max,tam/max,tam/max));
+    aplicaTG(Translate(xorig,yorig,zorig));
+
 
     /*double escalaX = 1.0 / 4.6;
     mat4 m= Translate(-1.93*escalaX, (+0.26)*escalaX, -2.16*escalaX)*Scale(escalaX, escalaX, escalaX)*Translate(+1.93, -0.26, 2.16);
@@ -125,23 +126,23 @@ Capsa3D Cotxe::calculCapsa3D(){
     capses.push_back(carro.calculCapsa3D());
 
     vec3 pmin = capses[0].pmin;
-    vec3 pmax = vec3(capses[0].a,capses[0].h,capses[0].p);
+    vec3 pmax = vec3(capses[0].pmin.x + capses[0].a, capses[0].pmin.y + capses[0].h, capses[0].pmin.z + capses[0].p);
 
     for (int i = 1; i < capses.size(); ++i){
         if (capses[i].pmin.x < pmin.x) pmin.x = capses[i].pmin.x;
-        if (capses[i].a > pmax.x) pmax.x = capses[i].a;
+        if ((capses[i].pmin.x + capses[i].a) > pmax.x) pmax.x = capses[i].pmin.x + capses[i].a;
 
         if (capses[i].pmin.y < pmin.y) pmin.y = capses[i].pmin.y;
-        if (capses[i].h > pmax.y) pmax.y = capses[i].h;
+        if ((capses[i].pmin.y + capses[i].h) > pmax.y) pmax.y = capses[i].pmin.y + capses[i].h;
 
         if (capses[i].pmin.z < pmin.z) pmin.z = capses[i].pmin.z;
-        if (capses[i].p > pmax.z) pmax.z = capses[i].p;
+        if ((capses[i].pmin.z + capses[i].p) > pmax.z) pmax.z = capses[i].pmin.z + capses[i].p;
     }
 
     capsa.pmin = pmin;
-    capsa.a = pmax.x;
-    capsa.p = pmax.z;
-    capsa.h = pmax.y;
+    capsa.a = pmax.x - pmin.x;
+    capsa.p = pmax.z - pmin.y;
+    capsa.h = pmax.y - pmin.z;
 
     return capsa;
 }

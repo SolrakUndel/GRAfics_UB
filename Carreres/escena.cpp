@@ -44,23 +44,23 @@ void escena::CapsaMinCont3DEscena()
     if (capses.size() > 0) {
         //Requiere comprobacion de funcionamiento
         vec3 pmin = capses[0].pmin;
-        vec3 pmax = vec3(capses[0].a,capses[0].h,capses[0].p);
+        vec3 pmax = vec3(capses[0].pmin.x + capses[0].a,capses[0].pmin.y + capses[0].h, capses[0].pmin.z + capses[0].p);
 
         for (int i = 1; i < capses.size(); ++i){
             if (capses[i].pmin.x < pmin.x) pmin.x = capses[i].pmin.x;
-            if (capses[i].a > pmax.x) pmax.x = capses[i].a;
+            if ((capses[i].pmin.x + capses[i].a) > pmax.x) pmax.x = capses[i].pmin.x + capses[i].a;
 
             if (capses[i].pmin.y < pmin.y) pmin.y = capses[i].pmin.y;
-            if (capses[i].h > pmax.y) pmax.y = capses[i].h;
+            if ((capses[i].pmin.y + capses[i].h) > pmax.y) pmax.y = capses[i].pmin.y + capses[i].h;
 
             if (capses[i].pmin.z < pmin.z) pmin.z = capses[i].pmin.z;
-            if (capses[i].p > pmax.z) pmax.z = capses[i].p;
+            if ((capses[i].pmin.z + capses[i].p) > pmax.z) pmax.z = capses[i].pmin.z + capses[i].p;
         }
 
         capsaMinima.pmin = pmin;
-        capsaMinima.a = pmax.x;
-        capsaMinima.p = pmax.z;
-        capsaMinima.h = pmax.y;
+        capsaMinima.a = pmax.x - pmin.x;
+        capsaMinima.p = pmax.z - pmin.y;
+        capsaMinima.h = pmax.y - pmin.z;
     }
 }
 
@@ -81,12 +81,17 @@ void escena::aplicaTG(mat4 m) {
 void escena::aplicaTGCentrat(mat4 m) {
 
     // Metode a modificar, modificat
+    this->CapsaMinCont3DEscena();
 
+    vec3 pmig = vec3(capsaMinima.pmin.x + capsaMinima.a/2, capsaMinima.pmin.y + capsaMinima.h/2, capsaMinima.pmin.z + capsaMinima.p/2);
+    mat4 trans1 = Translate(pmig.x,pmig.y ,pmig.z)*m*Translate(-pmig.x,-pmig.y ,-pmig.z);
     if (cotxe!=NULL)
-        cotxe->aplicaTGCentrat(m);
+        cotxe->aplicaTG(m);
     if (terra!=NULL)
-        terra->aplicaTGCentrat(m);
-    for (int i = 0; i < obstacles.size(); i++) obstacles[i]->aplicaTGCentrat(m);
+        terra->aplicaTG(m);
+    for (int i = 0; i < obstacles.size(); i++){
+        obstacles[i]->aplicaTG(m);
+    }
 }
 
 void escena::draw() {

@@ -56,12 +56,7 @@ Capsa3D Objecte::calculCapsa3D()
         if (points[i].z > pmax.z) pmax.z = points[i].z;
     }
 
-    if (pmin.x == -500){
-        capsa.pmin = vec3(0,0,0);
-        capsa.a = 0;
-        capsa.p = 0;
-        capsa.h = 0;
-    } else {
+    if (pmin.x != -500){
         capsa.pmin = pmin;
         capsa.a = pmax.x-pmin.x;
         capsa.p = pmax.z-pmin.z;
@@ -106,10 +101,12 @@ void Objecte::aplicaTGPoints(mat4 m)
 
 void Objecte::aplicaTGCentrat(mat4 m)
 {
-
-    // Metode a modificar
+    //Requiere comprobacion de funcionamiento
+    mat4 trans1 = Translate(-xorig, -yorig, -zorig);
+    mat4 trans2 = Translate(xorig, yorig, zorig);
+    aplicaTGPoints(trans1);
     aplicaTGPoints(m);
-    aplicaTG(m);
+    aplicaTG(trans2);
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){
@@ -169,7 +166,6 @@ void Objecte::make()
     // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
 
     Index = 0;
-
     for(unsigned int i=0; i<cares.size(); i++)
     {
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++)

@@ -107,6 +107,9 @@ static void qNormalizeAngle(int &angle)
 void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 
     // Metode a implementar
+    obj->aplicaTGPoints(Translate(-obj->xorig,-obj->yorig,-obj->zorig));
+    obj->aplicaTGPoints(Scale(1/a, 1/h, 1/p));
+    obj->aplicaTG(Translate((obj->xorig)/a,(obj->yorig)/h,(obj->zorig)/p));
 }
 
 void GLWidget::newObjecte(Objecte * obj)

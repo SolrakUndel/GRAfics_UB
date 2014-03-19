@@ -25,7 +25,7 @@ protected:
      // vertexs de l'objecte sense repetits
 
     // Sistema de coordenades d'un objecte: punt origen i eixos de rotació
-    GLfloat xorig, yorig, zorig;
+
     float xRot;
     float yRot;
     float zRot;
@@ -45,7 +45,7 @@ protected:
     void construeix_cara (char **words, int nwords, Objecte*objActual, int vindexUlt);
 
 public:
-
+    GLfloat xorig, yorig, zorig;
     vector<point4> vertexs;
     float getYOrig();
     // Capsa mínima contenidora de l'objecte
@@ -77,7 +77,7 @@ public:
     virtual void aplicaTG(mat4 m);
     virtual void aplicaTGPoints(mat4 m);
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
-    void aplicaTGCentrat(mat4 m);
+    virtual void aplicaTGCentrat(mat4 m);
 
 };
 
