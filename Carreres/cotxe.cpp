@@ -58,9 +58,8 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     else max = capsa.h;
     if (capsa.p > max) max = capsa.p;
 
-    aplicaTGPoints(Translate(-xorig,-yorig,-zorig));
-    aplicaTGPoints(Scale(tam/max,tam/max,tam/max));
-    aplicaTG(Translate(xorig,yorig,zorig));
+    mat4 m = Translate(xorig,yorig,zorig)* Scale(tam/max,tam/max,tam/max)*Translate(-xorig,-yorig,-zorig);
+    aplicaTG(m);
 
 
     /*double escalaX = 1.0 / 4.6;

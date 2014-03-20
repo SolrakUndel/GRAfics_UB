@@ -107,9 +107,8 @@ static void qNormalizeAngle(int &angle)
 void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 
     // Metode a implementar
-    obj->aplicaTGPoints(Translate(-obj->xorig,-obj->yorig,-obj->zorig));
-    obj->aplicaTGPoints(Scale(1/a, 1/h, 1/p));
-    obj->aplicaTG(Translate((obj->xorig)/a,(obj->yorig)/h,(obj->zorig)/p));
+    mat4 mat = Translate((obj->xorig)/a,(obj->yorig)/h,(obj->zorig)/p)*Scale(1/a, 1/h, 1/p)*Translate(-obj->xorig,-obj->yorig,-obj->zorig);
+    obj->aplicaTG(mat);
 }
 
 void GLWidget::newObjecte(Objecte * obj)
@@ -145,7 +144,7 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
     // parametres que posen l'objecte cotxe al punt original xorig, yorig, zorig i d'una certa mida
     // Cal modificar-lo per a que es posicioni a la Y correcte
     float yorig = 0;
-    if (esc->terra != NULL) esc->terra->getYOrig();
+    if (esc->terra != NULL) yorig = esc->terra->getYOrig();
 
     obj = new Cotxe(fichero, mida, xorig, yorig, zorig, xRot, yRot, zRot,xdirec, ydirec, zdirec);
     newObjecte(obj);

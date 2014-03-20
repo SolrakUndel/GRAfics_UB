@@ -85,13 +85,7 @@ void escena::aplicaTGCentrat(mat4 m) {
 
     vec3 pmig = vec3(capsaMinima.pmin.x + capsaMinima.a/2, capsaMinima.pmin.y + capsaMinima.h/2, capsaMinima.pmin.z + capsaMinima.p/2);
     mat4 trans1 = Translate(pmig.x,pmig.y ,pmig.z)*m*Translate(-pmig.x,-pmig.y ,-pmig.z);
-    if (cotxe!=NULL)
-        cotxe->aplicaTG(m);
-    if (terra!=NULL)
-        terra->aplicaTG(m);
-    for (int i = 0; i < obstacles.size(); i++){
-        obstacles[i]->aplicaTG(m);
-    }
+    this->aplicaTG(m);
 }
 
 void escena::draw() {
