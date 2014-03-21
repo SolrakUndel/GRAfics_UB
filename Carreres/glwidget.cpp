@@ -13,11 +13,13 @@ GLWidget::GLWidget(QWidget *parent)
     setFocusPolicy( Qt::StrongFocus );
     esc = new escena();
 
-    thisIsBullshit = 0;
-
     xRot = 0;
     yRot = 0;
     zRot = 0;
+
+    old_xRot = 0;
+    old_yRot = 0;
+    old_zRot = 0;
 
     a = 50.0;
     h = 50.0;
@@ -187,15 +189,16 @@ void GLWidget::paintGL()
     qNormalizeAngle(yRot);
     qNormalizeAngle(zRot);
 
-    mat4 transform = ( RotateX( xRot / 16.0 ) *
-                        RotateY( yRot / 16.0 ) *
-                        RotateZ( zRot / 16.0 ) );
+    mat4 transform = ( RotateX( (xRot-old_xRot) / 16.0 ) *
+                        RotateY( (yRot-old_yRot) / 16.0 ) *
+                        RotateZ( (zRot-old_zRot) / 16.0 ) );
 
+    old_xRot = xRot;
+    old_yRot = yRot;
+    old_zRot = zRot;
 
-    if (esc!=NULL) {
-        esc->aplicaTGCentrat(transform);
-        esc->draw();
-    }
+    esc->aplicaTGCentrat(transform);
+    esc->draw();
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -245,29 +248,20 @@ void GLWidget::setZRotation(int angle)
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
-    thisIsBullshit = 1;
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (thisIsBullshit == 1){
-        int dx = event->x() - lastPos.x();
-        int dy = event->y() - lastPos.y();
+    int dx = event->x() - lastPos.x();
+    int dy = event->y() - lastPos.y();
 
-        if (event->buttons() & Qt::LeftButton) {
-            setXRotation(xRot + 2 * dy);
-            //setYRotation(yRot + 8 * dx);
-        } else if (event->buttons() & Qt::RightButton) {
-            setYRotation(xRot + 2 * dx);
-            setZRotation(zRot + 2 * dy);
-        }
-        lastPos = event->pos();
+    if (event->buttons() & Qt::LeftButton) {
+        setXRotation(xRot + 2 * dy);
+        //setYRotation(yRot + 8 * dx);
+    } else if (event->buttons() & Qt::RightButton) {
+        setYRotation(xRot + 2 * dx);
+        setZRotation(zRot + 2 * dy);
     }
-}
-
-void GLWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    thisIsBullshit = 0;
 }
 
 void GLWidget::keyPressEvent(QKeyEvent *event)

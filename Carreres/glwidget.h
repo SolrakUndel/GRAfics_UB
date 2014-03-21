@@ -36,7 +36,6 @@ protected:
     void resizeGL(int width, int height);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
@@ -47,11 +46,13 @@ protected:
 private:
     escena *esc;
 
-    int thisIsBullshit;
-
     int xRot;
     int yRot;
     int zRot;
+    int old_xRot;
+    int old_yRot;
+    int old_zRot;
+
 
     QPoint lastPos;
     QColor qtGreen;

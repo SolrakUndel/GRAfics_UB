@@ -47,6 +47,7 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     direction.x = xdir;
     direction.y = ydir;
     direction.z = zdir;
+    direction.w = 0;
 
     nom = n;
     Index = 0;
@@ -151,27 +152,43 @@ Capsa3D Cotxe::calculCapsa3D(){
 
 void Cotxe::forward(){
     // Metode a implementar per fer el moviment del cotxe
-    mat4 mat = Translate(0.2,0,0);
-    aplicaTG(mat);
+    if (direction.x < max_speed){
+        direction += 0.1;
+    }
+    /*mat4 mat = Translate();
+    aplicaTG(mat);*/
 }
 
 void Cotxe::backward(){
-    mat4 mat = Translate(-0.2,0,0);
-    aplicaTG(mat);
+    if (direction.x < max_speed){
+        direction -= 0.1;
+    }
+    /*mat4 mat = Translate(-0.2,0,0);
+    aplicaTG(mat);*/
     // Metode a implementar per fer el moviment del cotxe
 
 }
 
 void Cotxe::turnleft(){
-    mat4 mat = RotateY(10);
-    aplicaTGCentrat(mat);
+    yRot += 1;
+    if (yRot > 360) {
+        yRot -= 360;
+    }
+    //mat4 mat = RotateY(10);
+    //aplicaTGCentrat(mat);
     // Metode a implementar per fer el moviment del cotxe
 
 }
 
 void Cotxe::turnright(){
+    yRot -= 1;
+    if (yRot < 0) {
+        yRot += 360;
+    }
+    /*
     mat4 mat = RotateY(-10);
     aplicaTGCentrat(mat);
+    */
     // Metode a implementar per fer el moviment del cotxe
 
 }

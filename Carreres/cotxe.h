@@ -31,6 +31,7 @@ public:
     void turnleft();
     void turnright();
     point4 direction;
+    GLfloat max_speed;
 
 private:
 
