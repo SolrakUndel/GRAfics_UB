@@ -13,6 +13,7 @@ GLWidget::GLWidget(QWidget *parent)
     setFocusPolicy( Qt::StrongFocus );
     esc = new escena();
 
+    thisIsBullshit = 0;
 
     xRot = 0;
     yRot = 0;
@@ -33,6 +34,7 @@ GLWidget::GLWidget(QWidget *parent)
 GLWidget::~GLWidget()
 {
     makeCurrent();
+    delete esc;
 }
 
 //  Metode per a carregar de fitxers el vertex i el fragment shader
@@ -185,9 +187,9 @@ void GLWidget::paintGL()
     qNormalizeAngle(yRot);
     qNormalizeAngle(zRot);
 
-    mat4 transform = ( RotateX( xRot / 64.0 ) *
-                        RotateY( yRot / 64.0 ) *
-                        RotateZ( zRot / 64.0 ) );
+    mat4 transform = ( RotateX( xRot / 16.0 ) *
+                        RotateY( yRot / 16.0 ) *
+                        RotateZ( zRot / 16.0 ) );
 
 
     if (esc!=NULL) {
@@ -243,21 +245,29 @@ void GLWidget::setZRotation(int angle)
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
+    thisIsBullshit = 1;
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    int dx = event->x() - lastPos.x();
-    int dy = event->y() - lastPos.y();
+    if (thisIsBullshit == 1){
+        int dx = event->x() - lastPos.x();
+        int dy = event->y() - lastPos.y();
 
-    if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 8 * dy);
-        //setYRotation(yRot + 8 * dx);
-    } else if (event->buttons() & Qt::RightButton) {
-        setYRotation(xRot + 8 * dx);
-        setZRotation(zRot + 8 * dy);
+        if (event->buttons() & Qt::LeftButton) {
+            setXRotation(xRot + 2 * dy);
+            //setYRotation(yRot + 8 * dx);
+        } else if (event->buttons() & Qt::RightButton) {
+            setYRotation(xRot + 2 * dx);
+            setZRotation(zRot + 2 * dy);
+        }
+        lastPos = event->pos();
     }
-    lastPos = event->pos();
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    thisIsBullshit = 0;
 }
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
@@ -266,22 +276,21 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     switch ( event->key() )
     {
     case Qt::Key_Up:
-
+        if (esc->cotxe != NULL) esc->cotxe->forward();
         break;
     case Qt::Key_Down:
-
+        if (esc->cotxe != NULL) esc->cotxe->backward();
         break;
     case Qt::Key_Left:
-
+        if (esc->cotxe != NULL) esc->cotxe->turnleft();
         break;
     case Qt::Key_Right:
-
+        if (esc->cotxe != NULL) esc->cotxe->turnright();
         break;
     }
-
+    updateGL();
 }
 void GLWidget::keyReleaseEvent(QKeyEvent *event)
 {
     // Metode a implementar en el cas que es doni velocitat al cotxe
-
 }

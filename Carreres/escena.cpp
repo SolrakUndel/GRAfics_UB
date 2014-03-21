@@ -17,7 +17,15 @@ escena::escena()
 escena::~escena()
 {
     printf("DESTRUCTOR!");
-
+    if (cotxe != NULL){
+        delete cotxe;
+    }
+    if (terra != NULL){
+        delete terra;
+    }
+    for (int i = 0; i < obstacles.size(); i++){
+        delete obstacles[i];
+    }
 }
 
 void escena::addObjecte(Objecte *obj) {

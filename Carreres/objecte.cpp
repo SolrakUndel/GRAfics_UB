@@ -61,25 +61,6 @@ Capsa3D Objecte::calculCapsa3D()
         capsa.h =  pmax.y-pmin.y;
         capsa.p =  pmax.z-pmin.z;
     }
-    /*
-    for (int i = 0; i < Index; ++i){
-        if (points[i].x < pmin.x) pmin.x = points[i].x;
-        if (points[i].x > pmax.x) pmax.x = points[i].x;
-
-        if (points[i].y < pmin.y) pmin.y = points[i].y;
-        if (points[i].y > pmax.y) pmax.y = points[i].y;
-
-        if (points[i].z < pmin.z) pmin.z = points[i].z;
-        if (points[i].z > pmax.z) pmax.z = points[i].z;
-    }
-
-    if (pmin.x != -500){
-        capsa.pmin = pmin;
-        capsa.a = pmax.x-pmin.x;
-        capsa.p = pmax.z-pmin.z;
-        capsa.h = pmax.y-pmin.y;
-    }
-    */
 
     return capsa;
 }
