@@ -44,15 +44,15 @@ Capsa3D Objecte::calculCapsa3D()
 {
     //Requiere comprobacion de funcionamiento
     vec3  pmin(0), pmax(0);
-    for (int i = 0; i < vertexs.size(); i++){
-        if (vertexs[i].x < pmin.x) pmin.x = vertexs[i].x;
-        if (vertexs[i].x > pmax.x) pmax.x = vertexs[i].x;
+    for (int i = 0; i < Index; i++){
+        if (points[i].x < pmin.x) pmin.x = points[i].x;
+        if (points[i].x > pmax.x) pmax.x = points[i].x;
 
-        if (vertexs[i].y < pmin.y) pmin.y = vertexs[i].y;
-        if (vertexs[i].y > pmax.y) pmax.y = vertexs[i].y;
+        if (points[i].y < pmin.y) pmin.y = points[i].y;
+        if (points[i].y > pmax.y) pmax.y = points[i].y;
 
-        if (vertexs[i].z < pmin.z) pmin.z = vertexs[i].z;
-        if (vertexs[i].z > pmax.z) pmax.z = vertexs[i].z;
+        if (points[i].z < pmin.z) pmin.z = points[i].z;
+        if (points[i].z > pmax.z) pmax.z = points[i].z;
     }
 
     if (pmin.x != 0){
@@ -102,8 +102,10 @@ void Objecte::aplicaTGCentrat(mat4 m)
 {
     //Requiere comprobacion de funcionamiento
     mat4 trans1 = Translate(-xorig, -yorig, -zorig);
+    mat4 rot1 = RotateX(-xRot)*RotateY(-yRot)*RotateZ(-zRot);
+    mat4 rot2 = RotateZ(zRot)*RotateY(yRot)*RotateX(xRot);
     mat4 trans2 = Translate(xorig, yorig, zorig);
-    aplicaTG(trans2*m*trans1);
+    aplicaTG(trans2*rot2*m*rot1*trans1);
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){

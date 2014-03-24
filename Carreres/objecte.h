@@ -24,14 +24,7 @@ protected:
     vector<Cara> cares; // cares de l'objecte
      // vertexs de l'objecte sense repetits
 
-    // Sistema de coordenades d'un objecte: punt origen i eixos de rotació
-
-    float xRot;
-    float yRot;
-    float zRot;
-
     GLfloat tam; // Escala de l'objecte aplicada al fitxer d'entrada
-
 
     // Programa de shaders de la GPU
     QGLShaderProgram *program;
@@ -46,6 +39,12 @@ protected:
 
 public:
     GLfloat xorig, yorig, zorig;
+
+    // Sistema de coordenades d'un objecte: punt origen i eixos de rotació
+    float xRot;
+    float yRot;
+    float zRot;
+
     vector<point4> vertexs;
     float getYOrig();
     // Capsa mínima contenidora de l'objecte

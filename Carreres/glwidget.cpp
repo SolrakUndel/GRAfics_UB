@@ -150,7 +150,7 @@ void GLWidget::newCotxe(QString fichero, float xorig, float zorig, float mida, f
     float yorig = 0;
     if (esc->terra != NULL) yorig = esc->terra->getYOrig();
 
-    obj = new Cotxe(fichero, mida, xorig, yorig, zorig, xRot, yRot, zRot,xdirec, ydirec, zdirec);
+    obj = new Cotxe(fichero, mida, xorig, yorig, zorig, 0, 0, 0,xdirec, ydirec, zdirec);
     newObjecte(obj);
 }
 
@@ -267,19 +267,29 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
     // Metode a implementar
+    mat4 rot1 = RotateZ(-zRot)*RotateY(-yRot)*RotateX(-xRot);
+    mat4 rot2 = RotateX(xRot)*RotateY(yRot)*RotateZ(zRot);
     switch ( event->key() )
     {
     case Qt::Key_Up:
-        if (esc->cotxe != NULL) esc->cotxe->forward();
+        if (esc->cotxe != NULL) {
+            esc->cotxe->forward(rot1, rot2);
+        }
         break;
     case Qt::Key_Down:
-        if (esc->cotxe != NULL) esc->cotxe->backward();
+        if (esc->cotxe != NULL) {
+            esc->cotxe->backward(rot1, rot2);
+        }
         break;
     case Qt::Key_Left:
-        if (esc->cotxe != NULL) esc->cotxe->turnleft();
+        if (esc->cotxe != NULL) {
+            esc->cotxe->turnleft(rot1, rot2);
+        }
         break;
     case Qt::Key_Right:
-        if (esc->cotxe != NULL) esc->cotxe->turnright();
+        if (esc->cotxe != NULL) {
+            esc->cotxe->turnright(rot1, rot2);
+        }
         break;
     }
     updateGL();

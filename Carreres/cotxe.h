@@ -26,10 +26,10 @@ public:
     Capsa3D calculCapsa3D();
 
 
-    void forward();
-    void backward();
-    void turnleft();
-    void turnright();
+    void forward(mat4 rot1, mat4 rot2);
+    void backward(mat4 rot1, mat4 rot2);
+    void turnleft(mat4 rot1, mat4 rot2);
+    void turnright(mat4 rot1, mat4 rot2);
     point4 direction;
     GLfloat max_speed;
 
@@ -40,6 +40,8 @@ private:
     Roda roda_devantera_dreta;
     Roda roda_posterior_dreta;
     Roda roda_posterior_esquerra;
+
+    int initialized;
 
     static const int NumVerticesF = 100000;
     static const int NumCares = 300000;
