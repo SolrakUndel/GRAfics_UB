@@ -44,20 +44,20 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     yRot = giry;
     zRot = girz;
 
-    roda_posterior_esquerra.xRot = xRot;
-    roda_devantera_dreta.xRot = xRot;
-    roda_posterior_dreta.xRot = xRot;
-    roda_posterior_esquerra.xRot = xRot;
+    roda_devantera_esquerra.xRot = 0;
+    roda_devantera_dreta.xRot = 0;
+    roda_posterior_dreta.xRot = 0;
+    roda_posterior_esquerra.xRot = 0;
 
-    roda_posterior_esquerra.yRot = yRot;
-    roda_devantera_dreta.yRot = yRot;
-    roda_posterior_dreta.yRot = yRot;
-    roda_posterior_esquerra.yRot = yRot;
+    roda_devantera_esquerra.yRot = 0;
+    roda_devantera_dreta.yRot = 0;
+    roda_posterior_dreta.yRot = 0;
+    roda_posterior_esquerra.yRot = 0;
 
-    roda_posterior_esquerra.zRot = zRot;
-    roda_devantera_dreta.zRot = zRot;
-    roda_posterior_dreta.zRot = zRot;
-    roda_posterior_esquerra.zRot = zRot;
+    roda_devantera_esquerra.zRot = 0;
+    roda_devantera_dreta.zRot = 0;
+    roda_posterior_dreta.zRot = 0;
+    roda_posterior_esquerra.zRot = 0;
 
     direction.x = xdir;
     direction.y = ydir;
@@ -78,8 +78,6 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     if (capsa.a > capsa.h) max = capsa.a;
     else max = capsa.h;
     if (capsa.p > max) max = capsa.p;
-
-    vec3 pmig(capsa.pmin.x+capsa.a/2,capsa.pmin.y+capsa.h/2,capsa.pmin.z+capsa.p/2);
 
     mat4 m = Translate(xorig,yorig,zorig)*RotateZ(zRot)*RotateY(yRot)*RotateX(xRot)*Scale(tam/max,tam/max,tam/max);
     aplicaTG(m);
@@ -148,6 +146,23 @@ Capsa3D Cotxe::calculCapsa3D(){
     capses.push_back(carro.calculCapsa3D());
 
     if (initialized == 0){
+        //Initialization of the wheels
+        roda_devantera_esquerra.xorig = capses[0].pmin.x+capses[0].a/2;
+        roda_devantera_esquerra.yorig = capses[0].pmin.y+capses[0].h/2;
+        roda_devantera_esquerra.zorig = capses[0].pmin.z+capses[0].p/2;
+
+        roda_devantera_dreta.xorig = capses[1].pmin.x+capses[1].a/2;
+        roda_devantera_dreta.yorig = capses[1].pmin.y+capses[1].h/2;
+        roda_devantera_dreta.zorig = capses[1].pmin.z+capses[1].p/2;
+
+        roda_posterior_dreta.xorig = capses[2].pmin.x+capses[2].a/2;
+        roda_posterior_dreta.yorig = capses[2].pmin.y+capses[2].h/2;
+        roda_posterior_dreta.zorig = capses[2].pmin.z+capses[2].p/2;
+
+        roda_posterior_esquerra.xorig = capses[3].pmin.x+capses[3].a/2;
+        roda_posterior_esquerra.yorig = capses[3].pmin.y+capses[3].h/2;
+        roda_posterior_esquerra.zorig = capses[3].pmin.z+capses[3].p/2;
+
         initialized = 1;
     }
 
@@ -178,16 +193,28 @@ void Cotxe::forward(mat4 rot1, mat4 rot2){
     /*if (direction.x < max_speed){
         direction += 0.1;
     }*/
-    mat4 mat = rot2*Translate(0.2,0,0)*rot1;
-    aplicaTGCentrat(mat);
+    mat4 m = Translate(0.2,0,0);
+    vec4 aux(xorig, yorig, zorig, 1);
+    aux = m*aux;
+    xorig = aux.x;
+    yorig = aux.y;
+    zorig = aux.z;
+    mat4 mat = rot2*m*rot1;
+
+    aplicaTG(mat);
 }
 
 void Cotxe::backward(mat4 rot1, mat4 rot2){
     /*if (direction.x < max_speed){
         direction -= 0.1;
     }*/
-    mat4 mat = rot2*Translate(-0.2,0,0)*rot1;
-    aplicaTGCentrat(mat);
+    mat4 m = Translate(-0.2,0,0);
+    vec4 aux(xorig, yorig, zorig, 1);
+    aux = m*aux;
+    xorig = aux.x;
+    yorig = aux.y;
+    mat4 mat = rot2*m*rot1;
+    aplicaTG(mat);
     // Metode a implementar per fer el moviment del cotxe
 
 }

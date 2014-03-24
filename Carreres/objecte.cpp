@@ -71,7 +71,11 @@ Capsa3D Objecte::calculCapsa3D()
 void Objecte::aplicaTG(mat4 m)
 {
     aplicaTGPoints(m);
-
+    vec4 aux(xorig, yorig, zorig, 1);
+    aux = m*aux;
+    xorig = aux.x;
+    yorig = aux.y;
+    zorig = aux.z;
     // Actualitzacio del vertex array per a preparar per pintar
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index,
                      &points[0] );
@@ -102,10 +106,8 @@ void Objecte::aplicaTGCentrat(mat4 m)
 {
     //Requiere comprobacion de funcionamiento
     mat4 trans1 = Translate(-xorig, -yorig, -zorig);
-    mat4 rot1 = RotateX(-xRot)*RotateY(-yRot)*RotateZ(-zRot);
-    mat4 rot2 = RotateZ(zRot)*RotateY(yRot)*RotateX(xRot);
     mat4 trans2 = Translate(xorig, yorig, zorig);
-    aplicaTG(trans2*rot2*m*rot1*trans1);
+    aplicaTG(trans2*m*trans1);
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){
