@@ -5,15 +5,15 @@ Obstacle::Obstacle(float y): Objecte(NumVerticesF)
     Index = 0;
     tam = 1;
 
-    a = ((float)(rand()%301)) / 100;
-    h = ((float)(rand()%301)) / 100;
-    p = ((float)(rand()%301)) / 100;
+    a = ((float)(rand()%1001)) / 100;
+    h = ((float)(rand()%1001)) / 100;
+    p = ((float)(rand()%1001)) / 100;
 
-    xorig = (((float)(rand()%101))/200 -1.0) -a/2;
+    xorig = (((float)(rand()%5001))/100 -25.0) -a/2;
     yorig = y+h/2;
-    zorig = (((float)(rand()%101))/200 -1.0)-p/2;
+    zorig = (((float)(rand()%5001))/100 -25.0)-p/2;
 
-    yRot = (((float)(rand()%101))/200 -1.0)*180;
+    yRot = (((float)(rand()%5001))/100 -25.0)*180;
 
 
     createObstacle();
