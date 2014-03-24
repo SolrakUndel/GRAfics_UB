@@ -131,7 +131,13 @@ void GLWidget::newObstacle(int nombre)
     // ha d'estar a les ys del pla de la terra
 
     // Metode a implementar
+    float yorig = 0;
+    if (esc->terra != NULL) yorig = esc->terra->getYOrig();
 
+    for (int i = 0; i < nombre; i++){
+        Obstacle *obj = new Obstacle(yorig);
+        newObjecte(obj);
+    }
 }
 void GLWidget::newTerra(float amplaria, float profunditat, float y)
 {
