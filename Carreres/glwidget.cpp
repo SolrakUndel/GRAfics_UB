@@ -111,7 +111,7 @@ static void qNormalizeAngle(int &angle)
 void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 
     // Metode a implementar
-    mat4 mat = Translate((obj->xorig)/a,(obj->yorig)/h,(obj->zorig)/p)*Scale(1/a, 1/h, 1/p)*Translate(-obj->xorig,-obj->yorig,-obj->zorig);
+    mat4 mat = Translate((obj->xorig)/a,(obj->yorig)/h,(obj->zorig)/p)*Scale(2/a, 2/h, 2/p)*Translate(-obj->xorig,-obj->yorig,-obj->zorig);
     obj->aplicaTG(mat);
 }
 
@@ -189,9 +189,9 @@ void GLWidget::paintGL()
     qNormalizeAngle(yRot);
     qNormalizeAngle(zRot);
 
-    mat4 transform = ( RotateX( (xRot-old_xRot) / 16.0 ) *
-                        RotateY( (yRot-old_yRot) / 16.0 ) *
-                        RotateZ( (zRot-old_zRot) / 16.0 ) );
+    mat4 transform = ( RotateX( (xRot-old_xRot)) *
+                        RotateY( (yRot-old_yRot)) *
+                        RotateZ( (zRot-old_zRot)) );
 
     old_xRot = xRot;
     old_yRot = yRot;

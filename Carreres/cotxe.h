@@ -23,6 +23,7 @@ public:
     virtual void draw();
     void aplicaTG(mat4 m);
     void aplicaTGPoints(mat4 m);
+    void aplicaTGCentrat(mat4 m);
     Capsa3D calculCapsa3D();
 
 

@@ -79,7 +79,7 @@ Cotxe::Cotxe(QString n, GLfloat tamanio, GLfloat x0, GLfloat y0, GLfloat z0,
     else max = capsa.h;
     if (capsa.p > max) max = capsa.p;
 
-    mat4 m = Translate(xorig,yorig,zorig)*RotateZ(zRot)*RotateY(yRot)*RotateX(xRot)*Scale(tam/max,tam/max,tam/max);
+    mat4 m = Translate(xorig,yorig,zorig)*RotateZ(zRot)*RotateY(yRot-180)*RotateX(xRot)*Scale(tam/max,tam/max,tam/max);
     aplicaTG(m);
 
 
@@ -134,6 +134,11 @@ void Cotxe::aplicaTGPoints(mat4 m){
     roda_posterior_dreta.aplicaTGPoints(m);
     roda_posterior_esquerra.aplicaTGPoints(m);
     carro.aplicaTGPoints(m);
+}
+
+void Cotxe::aplicaTGCentrat(mat4 m){
+    mat4 mat = Translate(xorig,yorig,zorig)*m*Translate(-xorig,-yorig,-zorig);
+    this->aplicaTG(m);
 }
 
 Capsa3D Cotxe::calculCapsa3D(){
@@ -193,30 +198,37 @@ void Cotxe::forward(mat4 rot1, mat4 rot2){
     /*if (direction.x < max_speed){
         direction += 0.1;
     }*/
-    mat4 m = Translate(0.2,0,0);
-    vec4 aux(xorig, yorig, zorig, 1);
-    aux = m*aux;
-    xorig = aux.x;
-    yorig = aux.y;
-    zorig = aux.z;
-    mat4 mat = rot2*m*rot1;
+    if (((xorig + capsa.a) > 2) || ((zorig + capsa.p) > 2)) {
 
-    aplicaTG(mat);
+    } else {
+        mat4 m = Translate(0.2,0,0);
+        vec4 aux(xorig, yorig, zorig, 1);
+        aux = m*aux;
+        xorig = aux.x;
+        yorig = aux.y;
+        zorig = aux.z;
+        mat4 mat = rot2*RotateY(yRot)*m*RotateY(-yRot)*rot1;
+
+        aplicaTG(mat);
+    }
 }
 
 void Cotxe::backward(mat4 rot1, mat4 rot2){
     /*if (direction.x < max_speed){
         direction -= 0.1;
     }*/
-    mat4 m = Translate(-0.2,0,0);
-    vec4 aux(xorig, yorig, zorig, 1);
-    aux = m*aux;
-    xorig = aux.x;
-    yorig = aux.y;
-    mat4 mat = rot2*m*rot1;
-    aplicaTG(mat);
-    // Metode a implementar per fer el moviment del cotxe
+    if (((xorig) < -2) || ((zorig) < -2)) {
 
+    } else {
+        mat4 m = Translate(-0.2,0,0);
+        vec4 aux(xorig, yorig, zorig, 1);
+        aux = m*aux;
+        xorig = aux.x;
+        yorig = aux.y;
+        mat4 mat = rot2*RotateY(yRot)*m*RotateY(-yRot)*rot1;
+        aplicaTG(mat);
+        // Metode a implementar per fer el moviment del cotxe
+    }
 }
 
 void Cotxe::turnleft(mat4 rot1, mat4 rot2){
@@ -224,9 +236,9 @@ void Cotxe::turnleft(mat4 rot1, mat4 rot2){
     if (yRot > 360) {
         yRot -= 360;
     }
-    mat4 mat = rot2*RotateY(10)*rot1;
+    mat4 mat = rot2*Translate(xorig,yorig,zorig)*RotateY(10)*Translate(-xorig,-yorig,-zorig)*rot1;
 
-    aplicaTGCentrat(mat);
+    aplicaTG(mat);
     // Metode a implementar per fer el moviment del cotxe
 
 }
@@ -236,8 +248,8 @@ void Cotxe::turnright(mat4 rot1, mat4 rot2){
     if (yRot < 0) {
         yRot += 360;
     }
-    mat4 mat = rot2*RotateY(-10)*rot1;
-    aplicaTGCentrat(mat);
+    mat4 mat = rot2*Translate(xorig,yorig,zorig)*RotateY(-10)*Translate(-xorig,-yorig,-zorig)*rot1;
+    aplicaTG(mat);
 
     // Metode a implementar per fer el moviment del cotxe
 
